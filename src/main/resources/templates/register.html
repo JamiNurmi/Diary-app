@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rekisteröidy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+        }
+
+        .card {
+            max-width: 500px;
+            margin: 2rem auto;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div class="container">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="text-center">Luo uusi tili</h2>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/register}" method="post" th:object="${appUser}">
+                    <!-- Käyttäjätunnus -->
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Käyttäjätunnus</label>
+                        <input type="text" class="form-control" id="username" th:field="*{username}" required>
+                        <div th:if="${#fields.hasErrors('username')}" class="error-message">
+                            <span th:errors="*{username}"></span>
+                        </div>
+                        <div th:if="${usernameError}" class="error-message" th:text="${usernameError}"></div>
+                    </div>
+
+                    <!-- Sähköposti -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Sähköposti</label>
+                        <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                        <div th:if="${#fields.hasErrors('email')}" class="error-message">
+                            <span th:errors="*{email}"></span>
+                        </div>
+                        <div th:if="${emailError}" class="error-message" th:text="${emailError}"></div>
+                    </div>
+
+                    <!-- Salasana -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Salasana</label>
+                        <input type="password" class="form-control" id="password" th:field="*{password}" required>
+                        <div th:if="${#fields.hasErrors('password')}" class="error-message">
+                            <span th:errors="*{password}"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Rekisteröidy</button>
+                </form>
+
+                <div class="mt-3 text-center">
+                    <p>Onko sinulla jo tili? <a th:href="@{/login}">Kirjaudu sisään</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
