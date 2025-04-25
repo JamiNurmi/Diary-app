@@ -96,7 +96,15 @@
                         </form>
 
                         <!-- Merkintöjen lista -->
-                        <h2 class="mb-4">Merkinnät</h2>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2 class="mb-0">Merkinnät</h2>
+                            <form th:action="@{/}" method="get" class="d-flex align-items-center">
+                                <select name="order" class="form-select form-select-sm" onchange="this.form.submit()">
+                                    <option value="desc" th:selected="${order == 'desc'}">Uusimmat ensin</option>
+                                    <option value="asc" th:selected="${order == 'asc'}">Vanhimmat ensin</option>
+                                </select>
+                            </form>
+                        </div>
 
                         <div th:if="${entries == null or entries.empty}" class="alert alert-info">
                             Ei vielä merkintöjä. Lisää ensimmäinen merkintä yllä olevalla lomakkeella.

@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.diary.domain.Entry;
 import com.example.diary.repository.EntryRepository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -30,5 +32,18 @@ public class EntryController {
     @DeleteMapping("/{id}")
     public void deleteEntry(@PathVariable Long id) {
         entryRepository.deleteById(id);
+    }
+
+    @GetMapping("/searchByDate")
+    public List<Entry> searchByDate(
+            @RequestParam("start") String start,
+            @RequestParam("end") String end) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
+        LocalDateTime startDate = LocalDateTime.parse(start, formatter);
+        LocalDateTime endDate = LocalDateTime.parse(end, formatter);
+
+        return entryRepository.findByCreatedAtBetween(startDate, endDate);
     }
 }

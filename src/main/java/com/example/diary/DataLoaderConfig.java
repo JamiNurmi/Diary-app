@@ -9,9 +9,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.diary.domain.AppUser;
 import com.example.diary.repository.AppUserRepository;
+import com.example.diary.repository.EntryRepository;
+import com.example.diary.domain.Entry;
 
 @Configuration
 public class DataLoaderConfig {
+
+    @Bean
+    CommandLineRunner loadData(EntryRepository entryRepository) {
+        return args -> {
+            if (entryRepository.count() == 0) {
+                entryRepository.save(new Entry("Fake data 1", "Aloitin päiväkirjan pitämisen tänään."));
+                entryRepository.save(new Entry("Fake data 2", "Opin lisää Javaa ja Spring Bootia."));
+                entryRepository.save(new Entry("Fake data 3", "Join kahvia ja luin kirjaa koko päivän."));
+            }
+        };
+    }
 
     @Bean
     public CommandLineRunner dataLoader(AppUserRepository repository, PasswordEncoder encoder) {

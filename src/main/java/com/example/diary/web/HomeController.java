@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 
 @Controller
 @RequestMapping("/")
@@ -25,10 +26,12 @@ public class HomeController {
     private EntryRepository entryRepository;
 
     @GetMapping
-    public String home(Model model) {
-        List<Entry> entries = entryRepository.findAllByOrderByCreatedAtDesc();
-        model.addAttribute("entries", entries != null ? entries : Collections.emptyList());
-        return "index";
+    public String home(@RequestParam(name = "order", defaultValue = "desc") String order, Model model) {
+        Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        List<Entry> entries = entryRepository.findAll(Sort.by(direction, "createdAt"));
+        model.addAttribute("entries", entries);
+        model.addAttribute("order", order);
+        return "index"; // Thymeleaf-sivun nimi (esim. index.html)
     }
 
     @PostMapping("/add")
