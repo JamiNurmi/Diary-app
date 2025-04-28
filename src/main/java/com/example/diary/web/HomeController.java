@@ -12,7 +12,6 @@ import com.example.diary.domain.Entry;
 import com.example.diary.repository.EntryRepository;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
